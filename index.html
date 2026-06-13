@@ -4,10 +4,81 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scrubb Club — Invoices</title>
-<link rel="stylesheet" href="style.css">
-<link rel="icon" href="logo.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root{
+    --ink:#1c2430; --muted:#6b7682; --line:#e3e8ee; --bg:#eef1f5;
+    --card:#ffffff; --accent:#16557a; --accent-d:#0f3d58;
+    --paper-head:#3f3f3f; --paper-shade:#f1f1f1;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.45}
+  .topbar{background:var(--accent-d);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px}
+  .topbar h1{font-size:16px;margin:0;font-weight:600;letter-spacing:.2px}
+  .topbar span{font-size:12px;color:#bcd4e2}
+  .wrap{display:grid;grid-template-columns:380px 1fr;gap:20px;padding:20px;max-width:1280px;margin:0 auto;align-items:start}
+  @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .card h2{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:0 0 14px}
+  label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:12px 0 4px}
+  input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;
+       font-size:14px;font-family:inherit;color:var(--ink);background:#fff}
+  input:focus,select:focus,textarea:focus{outline:2px solid #cfe0ec;border-color:var(--accent)}
+  textarea{resize:vertical;min-height:88px}
+  .row{display:flex;gap:10px}.row>div{flex:1}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:9px;
+       padding:11px 14px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:10px}
+  .btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-d)}
+  .btn-gmail{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}.btn-gmail:hover{background:#f3f8fb}
+  .btn-ghost{background:#f4f6f9;color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{background:#eceff3}
+  .dates{margin-top:6px}
+  .date-pill{display:flex;align-items:center;gap:8px;margin-top:6px}
+  .date-pill input{flex:1}
+  .date-pill button{flex:0 0 auto;width:34px;height:34px;border-radius:8px;border:1px solid var(--line);
+       background:#fff;cursor:pointer;color:#c0392b;font-size:18px;line-height:1}
+  .hint{font-size:11px;color:var(--muted);margin-top:6px}
+  .addlink{font-size:13px;color:var(--accent);background:none;border:none;cursor:pointer;padding:6px 0;font-weight:600}
+  .sep{height:1px;background:var(--line);margin:16px 0}
+  .preview-shell{display:flex;justify-content:center}
+  .paper{background:#fff;width:794px;max-width:100%;padding:54px 56px;border:1px solid var(--line);
+         border-radius:6px;box-shadow:0 6px 24px rgba(20,40,60,.08);font-size:13px;color:#222}
+  .p-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .p-logo img{width:118px;height:auto;display:block}
+  .p-title{text-align:right}
+  .p-title .word{font-size:38px;font-weight:300;letter-spacing:1px;color:#222;line-height:1}
+  .p-title .num{font-size:13px;color:#7a7a7a;margin-top:4px}
+  .p-meta{margin-top:30px;display:flex;justify-content:flex-end}
+  .p-meta table{border-collapse:collapse}
+  .p-meta td{padding:4px 0}
+  .p-meta .lab{color:#7a7a7a;text-align:right;padding-right:26px}
+  .p-meta .val{text-align:right;min-width:120px}
+  .p-bal{background:var(--paper-shade)}
+  .p-bal td{padding:9px 0;font-weight:700}
+  .p-bal .lab{padding-left:18px;padding-right:26px;color:#222;text-align:right}
+  .p-bal .val{padding-right:18px}
+  .p-company{font-weight:700;margin-top:-66px}
+  .p-billto{margin-top:18px}
+  .p-billto .lab{color:#7a7a7a}.p-billto .who{font-weight:700;margin-top:2px}
+  table.items{width:100%;border-collapse:collapse;margin-top:34px}
+  table.items thead th{background:var(--paper-head);color:#fff;font-weight:400;font-size:13px;
+       text-align:right;padding:8px 14px}
+  table.items thead th.l{text-align:left}
+  table.items tbody td{padding:8px 14px;text-align:right;font-weight:700}
+  table.items tbody td.l{text-align:left}
+  .p-total{display:flex;justify-content:flex-end;margin-top:40px}
+  .p-total table td{padding:4px 0}
+  .p-total .lab{color:#7a7a7a;padding-right:40px}
+  .p-pay{margin-top:54px;font-size:12px;color:#333}
+  .p-pay .h{color:#8a8a8a;margin-bottom:4px}
+  .p-pay .blk{margin-bottom:12px}
+  .saved{font-size:12px;color:#1a7a3c;margin-top:8px;min-height:16px}
+  @media print{
+    body *{visibility:hidden}
+    .paper,.paper *{visibility:visible}
+    .paper{position:absolute;left:0;top:0;border:none;box-shadow:none;width:100%}
+  }
+</style>
 </head>
 <body>
 <header class="topbar">
