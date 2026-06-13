@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scrubb Club — Invoices</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="logo.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <img src="logo.png" alt="Scrubb Club" class="brand-logo">
+  <div>
+    <h1>Scrubb Club Invoices</h1>
+    <p>Generate · preview · draft to Gmail</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============ CONTROLS ============ -->
+  <section class="card">
+    <h2>Invoice details</h2>
+
+    <label for="clientSel">Client</label>
+    <select id="clientSel"></select>
+
+    <div class="row">
+      <div><label for="invNum">Invoice number</label><input id="invNum"></div>
+      <div><label for="invDate">Invoice date</label><input id="invDate" type="date"></div>
+    </div>
+
+    <label for="toEmail">Recipient (To)</label>
+    <input id="toEmail">
+    <label for="ccEmail">Cc</label>
+    <input id="ccEmail" placeholder="(optional)">
+
+    <label for="service">Service description</label>
+    <input id="service">
+    <div class="row">
+      <div><label for="qty">Qty per visit</label><input id="qty" type="number"></div>
+      <div><label for="rate">Rate £</label><input id="rate" type="number" step="0.01"></div>
+    </div>
+
+    <div class="sep"></div>
+    <h2>Visit dates</h2>
+    <div class="row">
+      <div><label for="svcMonth">Service month</label><input id="svcMonth" type="month"></div>
+      <div><label for="weekday">Weekday</label>
+        <select id="weekday">
+          <option value="1">Monday</option><option value="2">Tuesday</option>
+          <option value="3">Wednesday</option><option value="4">Thursday</option>
+          <option value="5">Friday</option><option value="6">Saturday</option>
+          <option value="0">Sunday</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-ghost" id="genDates">Generate weekly dates</button>
+    <div class="dates" id="dateList"></div>
+    <button class="addlink" id="addDate">+ Add a date</button>
+
+    <div class="sep"></div>
+    <h2>Email</h2>
+    <label for="subject">Subject</label>
+    <input id="subject">
+    <label for="body">Message</label>
+    <textarea id="body"></textarea>
+
+    <div class="sep"></div>
+    <button class="btn btn-primary" id="dlPdf">⬇ Download PDF</button>
+    <button class="btn btn-gmail" id="openGmail">✉ Open Gmail draft</button>
+    <button class="btn btn-ghost" id="saveNum">Mark sent · save next number</button>
+    <div class="saved" id="savedMsg"></div>
+    <p class="hint">Send in 3 steps: download the PDF → open the Gmail draft (To/Cc/subject/message pre-filled) → attach the PDF and review before sending. Nothing sends automatically.</p>
+  </section>
+
+  <!-- ============ LIVE PREVIEW ============ -->
+  <section class="preview-shell">
+    <div class="paper" id="paper">
+
+      <table class="p-head"><tr>
+        <td class="p-logo"><img src="logo.png" alt="Scrubb Club"></td>
+        <td class="p-title">
+          <div class="word">INVOICE</div>
+          <div class="num" id="pNum"># SCS00013</div>
+        </td>
+      </tr></table>
+
+      <table class="p-band"><tr>
+        <td class="p-left">
+          <div class="p-company">Scrubb Club Cleaning Services</div>
+          <div class="p-billto">
+            <div class="lab">Bill To:</div>
+            <div class="who" id="pTo"></div>
+          </div>
+        </td>
+        <td class="p-right">
+          <table class="p-meta">
+            <tr><td class="lab">Date:</td><td class="val" id="pDate"></td></tr>
+            <tr class="p-bal"><td class="lab">Balance Due:</td><td class="val" id="pBal"></td></tr>
+          </table>
+        </td>
+      </tr></table>
+
+      <table class="items">
+        <thead><tr>
+          <th class="l">Item</th><th>Quantity</th><th>Rate</th><th>Amount</th>
+        </tr></thead>
+        <tbody id="pItems"></tbody>
+      </table>
+
+      <div class="p-total">
+        <table><tr><td class="lab">Total:</td><td id="pTotal"></td></tr></table>
+      </div>
+
+      <div class="p-pay">
+        <div class="h">Payment Details:</div>
+        <div class="blk">Account Holder Name<br>Scrubb Club Cleaning Services Limited</div>
+        <div class="blk">Account number<br>91897783</div>
+        <div class="blk">Sort code<br>60-83-71</div>
+        <div class="h">Terms:</div>
+        <div>Terms and Conditions: Full payment is required after service.</div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

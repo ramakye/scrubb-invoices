@@ -1,0 +1,88 @@
+:root{
+  --ink:#1c2430; --muted:#6b7682; --line:#e3e8ee; --bg:#eef1f5;
+  --card:#ffffff; --accent:#16557a; --accent-d:#0f3d58;
+  --paper-head:#3f3f3f; --paper-shade:#f1f1f1;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+     background:var(--bg);color:var(--ink);line-height:1.45}
+
+.topbar{background:var(--accent-d);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:14px}
+.topbar .brand-logo{width:42px;height:42px;border-radius:8px;background:#fff;padding:4px;object-fit:contain;flex:0 0 auto}
+.topbar h1{font-size:17px;margin:0;font-weight:600;letter-spacing:.2px}
+.topbar p{font-size:12px;color:#bcd4e2;margin:2px 0 0}
+
+.wrap{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px;padding:20px;max-width:1280px;margin:0 auto;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr;padding:14px;gap:14px}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}
+.card h2{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:0 0 14px}
+
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:12px 0 4px}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;
+     font-size:16px;font-family:inherit;color:var(--ink);background:#fff}
+input:focus,select:focus,textarea:focus{outline:2px solid #cfe0ec;border-color:var(--accent)}
+textarea{resize:vertical;min-height:96px}
+.row{display:flex;gap:10px}.row>div{flex:1;min-width:0}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:9px;
+     padding:13px 14px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:10px}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:active{background:var(--accent-d)}
+.btn-gmail{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}.btn-gmail:active{background:#f3f8fb}
+.btn-ghost{background:#f4f6f9;color:var(--ink);border:1px solid var(--line)}.btn-ghost:active{background:#eceff3}
+
+.dates{margin-top:6px}
+.date-pill{display:flex;align-items:center;gap:8px;margin-top:6px}
+.date-pill input{flex:1;min-width:0}
+.date-pill button{flex:0 0 auto;width:38px;height:40px;border-radius:8px;border:1px solid var(--line);
+     background:#fff;cursor:pointer;color:#c0392b;font-size:20px;line-height:1}
+.hint{font-size:11px;color:var(--muted);margin-top:10px}
+.addlink{font-size:14px;color:var(--accent);background:none;border:none;cursor:pointer;padding:8px 0;font-weight:600}
+.sep{height:1px;background:var(--line);margin:16px 0}
+.saved{font-size:12px;color:#1a7a3c;margin-top:8px;min-height:16px}
+
+/* ---- Preview shell scales the fixed-width paper to fit any screen ---- */
+.preview-shell{min-width:0;overflow:hidden}
+
+/* ---- Invoice paper: fixed A4-ish design width, scaled via JS transform ---- */
+.paper{background:#fff;width:794px;padding:54px 56px;border:1px solid var(--line);
+       border-radius:6px;box-shadow:0 6px 24px rgba(20,40,60,.08);font-size:13px;color:#222;
+       transform-origin:top left}
+
+.p-head{width:100%;border-collapse:collapse}
+.p-head .p-logo{width:140px;vertical-align:top}
+.p-head .p-logo img{width:118px;height:auto;display:block}
+.p-head .p-title{text-align:right;vertical-align:top}
+.p-head .word{font-size:38px;font-weight:300;letter-spacing:1px;color:#222;line-height:1}
+.p-head .num{font-size:13px;color:#7a7a7a;margin-top:4px}
+
+.p-band{width:100%;border-collapse:collapse;margin-top:26px}
+.p-band .p-left{vertical-align:top;text-align:left}
+.p-band .p-right{vertical-align:top;text-align:right;width:300px}
+.p-company{font-weight:700}
+.p-billto{margin-top:20px}
+.p-billto .lab{color:#7a7a7a}
+.p-billto .who{font-weight:700;margin-top:2px}
+.p-meta{border-collapse:collapse;margin-left:auto}
+.p-meta td{padding:4px 0}
+.p-meta .lab{color:#7a7a7a;text-align:right;padding-right:26px}
+.p-meta .val{text-align:right;min-width:110px}
+.p-meta .p-bal{background:var(--paper-shade)}
+.p-meta .p-bal td{padding:10px 0;font-weight:700}
+.p-meta .p-bal .lab{color:#222;padding-left:18px;padding-right:26px}
+.p-meta .p-bal .val{padding-right:18px}
+
+table.items{width:100%;border-collapse:collapse;margin-top:34px}
+table.items thead th{background:var(--paper-head);color:#fff;font-weight:400;font-size:13px;text-align:right;padding:9px 14px}
+table.items thead th.l{text-align:left}
+table.items tbody td{padding:9px 14px;text-align:right;font-weight:700}
+table.items tbody td.l{text-align:left}
+
+.p-total{display:flex;justify-content:flex-end;margin-top:40px}
+.p-total table{border-collapse:collapse}
+.p-total table td{padding:4px 0}
+.p-total .lab{color:#7a7a7a;padding-right:40px}
+
+.p-pay{margin-top:54px;font-size:12px;color:#333}
+.p-pay .h{color:#8a8a8a;margin-bottom:4px}
+.p-pay .blk{margin-bottom:12px}
